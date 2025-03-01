@@ -1,0 +1,30 @@
+name: Deploy bolt.diy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Use Ubuntu environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Checkout repository code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4 # Set up Node.js environment
+        with:
+          node-version: 'lts/*' # Use the latest LTS version of Node.js
+
+      - name: Install dependencies
+        run: npm install # Run npm install to install project dependencies
+
+      - name: Build website
+        run: npm run build # Run npm run build to generate production build
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4 # Action to deploy to GitHub Pages
+        with:
+          folder: dist # The folder where the build output is located (Vite default is 'dist')
